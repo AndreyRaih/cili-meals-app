@@ -1,19 +1,20 @@
 {
   "expo": {
     "name": "Cili Mobile App",
-    "slug": "cili",
+    "slug": "cili-meals-app",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
+    "sdkVersion": "35.0.0",
     "platforms": [
-      "ios"
+      "ios",
+      "android",
+      "web"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
