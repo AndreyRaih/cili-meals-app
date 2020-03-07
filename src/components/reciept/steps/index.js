@@ -1,18 +1,17 @@
 import React from 'react';
 import { Text, Animated, StyleSheet, View } from 'react-native';
 
-import IngridientItem from './item';
-
 import { inject, observer } from 'mobx-react';
+import StepItem from './item';
 
-function IngridientsView ({ store }) {
-  const { currentReciept, changeCurrentRecieptIngridientItem } = store;
+function StepsView ({ store }) {
+  const { currentReciept } = store;
   return (
     <Animated.ScrollView
       style={styles.dynamicViewBase}>
-        <Text style={styles.viewTitle}>Ingridients</Text>
+        <Text style={styles.viewTitle}>Steps</Text>
         <View style={styles.viewListContainer}>
-          {currentReciept.ingredients.map((ingridient, index) => <IngridientItem key={`${index}-ingridient`} content={ingridient} isMissed={ingridient.isMissed} onChange={(id) => changeCurrentRecieptIngridientItem(id)} />)}
+          {currentReciept.steps.map(step => <StepItem key={`${step.number}-item`} content={step} />)}
         </View>
     </Animated.ScrollView>
   )
@@ -38,4 +37,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default inject('store')(observer(IngridientsView));
+export default inject('store')(observer(StepsView));

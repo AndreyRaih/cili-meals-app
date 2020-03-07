@@ -5,7 +5,8 @@ export function makeRecieptModel (data) {
     description: ingridient.originalString,
     amount: ingridient.amount,
     unit: ingridient.unit,
-    image: ingridient.image
+    image: ingridient.image,
+    isMissed: true
   });
   const htmlCleanRegExp = new RegExp('<[^>]*>', 'g');
   const model = {

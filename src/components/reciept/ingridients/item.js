@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import RoundCheckbox from 'rn-round-checkbox';
 import { basicShadow } from '@res/shadows';
 import { primary, subtext } from '@res/colors';
 
-export default function IngridientItem ({ content, onChange }) {
-  const [ingridientIsMissed, changeIngridientState] = useState(content.missed);
-  useEffect(() => {
-    onChange(Object.assign({}, content, {missed: ingridientIsMissed}));
-  }, [ingridientIsMissed])
+export default function IngridientItem ({ content, onChange, isMissed }) {
   return (
-    <View style={{opacity: !ingridientIsMissed ? 1 : 0.5 }}>
-      <TouchableOpacity style={styles.layout} onPress={() => changeIngridientState(!ingridientIsMissed)}>
+    <View style={{opacity: !isMissed ? 1 : 0.5 }}>
+      <TouchableOpacity style={styles.layout} onPress={() => onChange(content.id)}>
         <View style={styles.imageContainer}>
           <Image style={styles.img} source={{uri: content.image}}></Image>
         </View>
@@ -22,7 +18,7 @@ export default function IngridientItem ({ content, onChange }) {
           </View>
           <View style={styles.checkboxContainer}>
             <RoundCheckbox
-              checked={ingridientIsMissed === false ? true : false}
+              checked={isMissed === false ? true : false}
               backgroundColor={primary}
             />
           </View>
@@ -52,7 +48,6 @@ const styles = StyleSheet.create({
     borderBottomColor: '#BCBBC1',
     paddingBottom: 4,
     borderBottomWidth: 1,
-    paddingLeft: 8
   },
   img: {
     width: '100%',
