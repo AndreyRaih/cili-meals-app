@@ -4,12 +4,14 @@ import { View, TouchableHighlight, Text, StyleSheet } from "react-native";
 import { buttonShadow } from '@res/shadows';
 import { primary } from '@res/colors';
 
-export default function ActionButton ({ onPress, text }) {
+export default function ActionButton ({ onPress, text, disabled }) {
   return (
     <TouchableHighlight
       underlayColor={'#D46100'}
       onPress={() => onPress()}
-      style={styles.button}>
+      style={[styles.button, { opacity: disabled ? 0.5 : 1 }]}
+      disabled={disabled}
+    >
       <Text style={styles.buttonText}>{text}</Text>
     </TouchableHighlight>
   )

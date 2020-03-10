@@ -6,13 +6,13 @@ import AnimatedCard from './animatedCard';
 import Info from '../info';
 import Ingridients from '../ingridients';
 import Steps from '../steps'
-import FinallMsg from '../finalView';
+import FinallMsg from '../finalMsg';
 import ActionButton from './actionButton';
 import RecieptSliderIndicator from './slideIndicator';
 
 function RecieptCard ({ store }) {
   const [currentStage, setCurrentStage] = useState(1);
-  const { setCurrentReciept, changeCurrentRecieptExpandState } = store;
+  const { setCurrentReciept, changeCurrentRecieptExpandState, currentReciept } = store;
 
   const changeCardActions = (action) => {
     switch (action) {
@@ -55,6 +55,11 @@ function RecieptCard ({ store }) {
     }
   }
 
+  function actionButtonIsDisabled () {
+    const disabledTrigger = currentStage === 2 && !currentReciept.ingredients.every(item => !item.isMissed);
+    return disabledTrigger;
+  }
+
   function nextStage () {
     const nextStage = currentStage + 1;
     currentStage < 4 ? setCurrentStage(nextStage) : setCurrentStage(1)
@@ -64,7 +69,7 @@ function RecieptCard ({ store }) {
     return (
       <>
         <RecieptSliderIndicator style={styles.cardSliderIndicator} />
-        <ActionButton onPress={() => nextStage()} text={renderActionBtnText()} />
+        <ActionButton onPress={() => nextStage()} text={renderActionBtnText()} disabled={actionButtonIsDisabled()} />
       </>
     )
   }

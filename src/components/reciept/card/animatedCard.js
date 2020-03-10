@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Animated, PanResponder } from 'react-native';
 
 export default function AnimatedCard ({ onCardAction, content, actions }) {
+  const [expandedContentArea, changeExpandedContentArea] = useState(false);
   // Initialize vertical's pan values
   const panY = new Animated.Value(0);
   let panValue = 0;
@@ -31,10 +32,12 @@ export default function AnimatedCard ({ onCardAction, content, actions }) {
       panY.flattenOffset();
       if (gs.dy < -20) {
         onCardAction('EXPAND')
+        changeExpandedContentArea(true)
         resetExpandedPositionAnim.start()
       }
       if (gs.dy > 20) {
         onCardAction('REDUCE')
+        changeExpandedContentArea(false)
         resetBasicPositionAnim.start()
       }
     }
@@ -66,7 +69,7 @@ export default function AnimatedCard ({ onCardAction, content, actions }) {
         <Animated.View {...panRespondersVertical.panHandlers} style={styles.cardResizeVerticalArea}>
           <View style={styles.cardReziseTriggerElem}></View>
         </Animated.View>
-        <Animated.View style={{height: '100%'}} {...panRespondersHorizontal.panHandlers}>
+        <Animated.View style={{height: expandedContentArea ? '75%' : '60%'}} {...panRespondersHorizontal.panHandlers}>
           {content}
         </Animated.View>
       </Animated.View>
@@ -79,7 +82,7 @@ export default function AnimatedCard ({ onCardAction, content, actions }) {
 
 const styles = StyleSheet.create({
   card: { height: 370, backgroundColor: 'white', flexDirection: 'column', width: '100%', borderTopRightRadius: 15, borderTopLeftRadius: 15, paddingHorizontal: 15},
-  cardReziseTriggerElem: {width: 50, height: 5, backgroundColor: '#C4C4C4', borderRadius: 25, alignSelf: 'center', marginBottom: 8},
+  cardReziseTriggerElem: { width: 50, height: 5, backgroundColor: '#C4C4C4', borderRadius: 25, alignSelf: 'center', marginBottom: 8},
   cardResizeVerticalArea: { paddingTop: 20},
   cardActionsArea: { flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 20 }
 })
