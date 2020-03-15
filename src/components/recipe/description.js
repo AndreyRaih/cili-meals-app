@@ -7,7 +7,7 @@ import { inject, observer } from 'mobx-react';
 import AnimationWrapper from '@components/animationWrapper';
 
 function Description ({ store }) {
-  const { title } = store.currentReciept;
+  const { title } = store.currentRecipe;
   return (
     <View style={styles.view}>
       <AnimationWrapper>

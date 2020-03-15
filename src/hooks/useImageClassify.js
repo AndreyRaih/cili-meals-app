@@ -2,6 +2,8 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import foodNamesList from '@res/food-names-list.json';
 import { request } from '@utils/request';
 
+import { GOOGLE_VISION_API_KEY } from 'react-native-dotenv';
+
 function _makeFoodNames (responseList) {
   const filteredList = []
   responseList.forEach(item => {
@@ -45,7 +47,7 @@ export async function useImageClassify (uri) {
       method: 'POST',
       url: 'https://vision.googleapis.com/v1/images:annotate',
       params: {
-        key: 'AIzaSyAGACJrdxHFZK3UEAbktYav9sLHyomcZr0'
+        key: GOOGLE_VISION_API_KEY
       },
       data
     });

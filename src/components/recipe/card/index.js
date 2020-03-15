@@ -8,24 +8,27 @@ import Ingridients from '../ingridients';
 import Steps from '../steps'
 import FinallMsg from '../finalMsg';
 import ActionButton from './actionButton';
-import RecieptSliderIndicator from './slideIndicator';
+import RecipeSliderIndicator from './slideIndicator';
 
-function RecieptCard ({ store }) {
+function RecipeCard ({ store }) {
   const [currentStage, setCurrentStage] = useState(1);
-  const { setCurrentReciept, changeCurrentRecieptExpandState, currentReciept } = store;
+  const { setCurrentRecipe, changeCurrentRecipeExpandState, currentRecipe, recipes } = store;
 
   const changeCardActions = (action) => {
+    const currentRecipPos = recipes.findIndex(recip => recip.id === currentRecipe.id);
     switch (action) {
       case 'NEXT':
+        const nextRecipId = recipes[currentRecipPos + 1].id;
         setCurrentStage(1);
-        return setCurrentReciept('2');
+        return setCurrentRecipe(nextRecipId);
       case 'PREV':
+        const prevRecipId = recipes[currentRecipPos - 1].id
         setCurrentStage(1);
-        return setCurrentReciept('1')
+        return setCurrentRecipe(prevRecipId)
       case 'EXPAND':
-        return changeCurrentRecieptExpandState(true);
+        return changeCurrentRecipeExpandState(true);
       case 'REDUCE':
-        return changeCurrentRecieptExpandState(false);
+        return changeCurrentRecipeExpandState(false);
     }
   }
 
@@ -56,7 +59,7 @@ function RecieptCard ({ store }) {
   }
 
   function actionButtonIsDisabled () {
-    const disabledTrigger = currentStage === 2 && !currentReciept.ingredients.every(item => !item.isMissed);
+    const disabledTrigger = currentStage === 2 && !currentRecipe.ingredients.every(item => !item.isMissed);
     return disabledTrigger;
   }
 
@@ -68,7 +71,7 @@ function RecieptCard ({ store }) {
   function renderCardActions () {
     return (
       <>
-        <RecieptSliderIndicator style={styles.cardSliderIndicator} />
+        <RecipeSliderIndicator style={styles.cardSliderIndicator} />
         <ActionButton onPress={() => nextStage()} text={renderActionBtnText()} disabled={actionButtonIsDisabled()} />
       </>
     )
@@ -83,4 +86,4 @@ const styles = StyleSheet.create({
   cardSliderIndicator: { marginBottom: 12}
 })
 
-export default inject('store')(observer(RecieptCard));
+export default inject('store')(observer(RecipeCard));

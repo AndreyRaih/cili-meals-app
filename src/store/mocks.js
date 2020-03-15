@@ -52,6 +52,14 @@ export const reciepMockObj1 = {
     {
       number: 3,
       step: 'In a saucepan, melt butter. Stir in the flour, salt and pepper until smooth. Gradually add milk. Bring to a boil cook and stir for 2 minutes or until thickened. Stir in broccoli and onion.'
+    },
+    {
+      number: 4,
+      step: 'In a saucepan, melt butter. Stir in the flour, salt and pepper until smooth. Gradually add milk. Bring to a boil cook and stir for 2 minutes or until thickened. Stir in broccoli and onion.'
+    },
+    {
+      number: 5,
+      step: 'In a saucepan, melt butter. Stir in the flour, salt and pepper until smooth. Gradually add milk. Bring to a boil cook and stir for 2 minutes or until thickened. Stir in broccoli and onion.'
     }
   ],
   isExtented: false

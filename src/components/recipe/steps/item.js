@@ -1,16 +1,18 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { greyDark, dark } from '@res/colors';
 
 export default function StepItem ({ content }) {
   return (
-    <View style={styles.layout}>
-      <View style={styles.stepContainer}>
-        <Text style={styles.step}>{content.number.toString()}</Text>
-      </View>
-      <View style={styles.textContainer}> 
-        <Text style={styles.text}>{content.step}</Text>
-      </View>
+    <View>
+      <TouchableOpacity style={styles.layout}>
+        <View style={styles.stepContainer}>
+          <Text style={styles.step}>{content.number.toString()}</Text>
+        </View>
+        <View style={styles.textContainer}> 
+          <Text style={styles.text}>{content.step}</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   )
 };

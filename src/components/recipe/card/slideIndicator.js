@@ -5,12 +5,12 @@ import { dark } from '@res/colors';
 
 import { inject, observer } from 'mobx-react';
 
-function RecieptSliderIndicator ({style, store}) {
-  const { reciepts, currentReciept } = store;
-  const isActive = (id) => currentReciept.id === id;
+function RecipeSliderIndicator ({style, store}) {
+  const { recipes, currentRecipe } = store;
+  const isActive = (id) => currentRecipe.id === id;
   return (
     <View style={{...styles.layout, ...style}}>
-      {reciepts.map((point, index) => <View key={`point-${index}`} style={{...styles.point, opacity: isActive(point.id) ? 1 : 0.2 }} />)}
+      {recipes.map((point, index) => <View key={`point-${index}`} style={{...styles.point, opacity: isActive(point.id) ? 1 : 0.2 }} />)}
     </View>
   )
 }
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default inject('store')(observer(RecieptSliderIndicator));
+export default inject('store')(observer(RecipeSliderIndicator));

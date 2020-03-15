@@ -18,7 +18,7 @@ export default class App extends React.Component {
         <NavigationContainer>
           <Stack.Navigator
             headerMode="none"
-            initialRouteName="Result"
+            initialRouteName="Camera"
             screenOptions={{gestureEnabled: false}}
           >
             <Stack.Screen name="Camera" component={CameraScreen} />

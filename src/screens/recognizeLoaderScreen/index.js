@@ -4,7 +4,7 @@ import AnimatedLoader from "react-native-animated-loader";
 import { inject } from 'mobx-react';
 
 import { useImageClassify } from '@hooks/useImageClassify';
-import { useMakeReciepts } from '@hooks/useMakeReciepts';
+import { useMakeRecipes } from '@hooks/useMakeRecipes';
 
 function RecognizeLoaderScreen ({ route, store, navigation }) {
   const { photo } = route.params;
@@ -25,10 +25,9 @@ function RecognizeLoaderScreen ({ route, store, navigation }) {
   async function endRecognize (predictions) {
     Vibration.vibrate();
     setCompleteState(true);
-    store.addExistingIngridients(predictions);
-    const reciepts = await useMakeReciepts(predictions);
-    store.addRecieptsList(reciepts);
-    store.setCurrentReciept(reciepts[0].id);
+    const recipes = await useMakeRecipes(predictions);
+    store.addRecipesList(recipes);
+    store.setCurrentRecipe(recipes[0].id);
     setTimeout(() => {
       setCompleteState(false);
       navigation.navigate('Result');
@@ -47,7 +46,7 @@ function RecognizeLoaderScreen ({ route, store, navigation }) {
       <AnimatedLoader
         visible={loadingState}
         overlayColor="rgba(0, 0, 0, 0.83)"
-        source={require("@res/loaders/process-loader-two.json")}
+        source={require("@res/loaders/process-loader.json")}
         animationStyle={{ width: 200, height: 200 }}
         speed={1}
       />

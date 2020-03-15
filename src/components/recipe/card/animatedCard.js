@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Animated, PanResponder } from 'react-native';
 
+// Initialize Y axios values
+const panPositionYAxis = new Animated.Value(0);
+let panPositionYAxisSavedValue = 0;
+// Initialize vertical's pan values
+panPositionYAxis.addListener((pos) => panPositionYAxisSavedValue = pos.value);
+
 export default function AnimatedCard ({ onCardAction, content, actions }) {
   const [expandedContentArea, changeExpandedContentArea] = useState(false);
-  // Initialize vertical's pan values
-  const panY = new Animated.Value(0);
-  let panValue = 0;
-  panY.addListener((pos) => panValue = pos.value);
   // Animations from return to positions after swiping
-  const resetBasicPositionAnim = Animated.timing(panY, {
+  const resetBasicPositionAnim = Animated.timing(panPositionYAxis, {
     toValue: 0,
     duration: 400,
   });
-  const resetExpandedPositionAnim = Animated.timing(panY, {
+  const resetExpandedPositionAnim = Animated.timing(panPositionYAxis, {
     toValue: -460,
     duration: 400,
   });
@@ -21,25 +23,26 @@ export default function AnimatedCard ({ onCardAction, content, actions }) {
     onStartShouldSetPanResponder: () => true,
     onMoveShouldSetPanResponder: () => false,
     onPanResponderGrant: () => {
-      panY.setOffset(panValue);
-      panY.setValue(0);
+      panPositionYAxis.setOffset(panPositionYAxisSavedValue);
+      panPositionYAxis.setValue(0);
     },
     onPanResponderMove: (e, gs) => {
       const moveTrigger = gs.y0 > 130 && gs.dy > -420 && gs.dy < 200;
-      if (moveTrigger) panY.setValue(gs.dy)
+      if (moveTrigger) panPositionYAxis.setValue(gs.dy)
     },
     onPanResponderRelease: (e, gs) => {
-      panY.flattenOffset();
+      panPositionYAxis.flattenOffset();
       if (gs.dy < -20) {
         onCardAction('EXPAND')
         changeExpandedContentArea(true)
-        resetExpandedPositionAnim.start()
+        return resetExpandedPositionAnim.start();
       }
-      if (gs.dy > 20) {
+      if (gs.dy > 60) {
         onCardAction('REDUCE')
         changeExpandedContentArea(false)
-        resetBasicPositionAnim.start()
+        return resetBasicPositionAnim.start();
       }
+      return expandedContentArea ? resetExpandedPositionAnim.start() : resetBasicPositionAnim.start();
     }
   });
   const panRespondersHorizontal = PanResponder.create({
@@ -55,7 +58,7 @@ export default function AnimatedCard ({ onCardAction, content, actions }) {
     }
   });
   // Dynamicly values
-  const top = panY.interpolate({
+  const top = panPositionYAxis.interpolate({
     inputRange: [-1, 0, 1],
     outputRange: [-0.3, 0, 0.1]
   });
@@ -63,13 +66,17 @@ export default function AnimatedCard ({ onCardAction, content, actions }) {
     inputRange: [0, 1],
     outputRange: [260, 259]
   });
+  const contentZoneHeight = top.interpolate({
+    inputRange: [0, 1],
+    outputRange: [140, 139]
+  })
   return (
     <Animated.View style={[styles.card, { top }]}>
       <Animated.View style={{ height }}>
         <Animated.View {...panRespondersVertical.panHandlers} style={styles.cardResizeVerticalArea}>
           <View style={styles.cardReziseTriggerElem}></View>
         </Animated.View>
-        <Animated.View style={{height: expandedContentArea ? '75%' : '60%'}} {...panRespondersHorizontal.panHandlers}>
+        <Animated.View style={{height: contentZoneHeight}} {...panRespondersHorizontal.panHandlers}>
           {content}
         </Animated.View>
       </Animated.View>

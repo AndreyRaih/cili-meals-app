@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Dimensions } from 'react-native';
 const { width } = Dimensions.get('window');
 
-export default function RecieptImage ({source, children, style}) {
+export default function RecipeImage ({source, children, style}) {
   return (
     <View style={[styles.layout, style]}>
       <View style={styles.innerContent}>{children}</View>
