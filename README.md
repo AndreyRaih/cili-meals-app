@@ -1,4 +1,4 @@
-# Cili App
+# Cili App [MVP]
 Cili App - is a my pet project app, based on React Native.
 
 It's just one of the ideas of usage Google Cloud Vision API in the usual lifestyle. As for me, I really like the Asian kitchen, and some time ago I resolved, that the smart camera-oriented app with AI recognition of ingredients, which you have at the moment - can be a perfect and useful idea. All that you should do - this is a make a photo of some products, wait for a few moments and get three meals recipes of Asian kitchen.
