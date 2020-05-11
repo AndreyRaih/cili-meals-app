@@ -7,8 +7,10 @@ import { GOOGLE_VISION_API_KEY } from 'react-native-dotenv';
 function _makeFoodNames (responseList) {
   const filteredList = []
   responseList.forEach(item => {
-    const hasEntity = foodNamesList.some(listItem => new RegExp(item, 'g').test(listItem));
-    if (hasEntity) filteredList.push(item);
+    if (item) {
+      const hasEntity = foodNamesList.some(listItem => new RegExp(item.toLowerCase(), 'g').test(listItem));
+      if (hasEntity) filteredList.push(item);
+    }
   });
   return filteredList;
 };
@@ -51,7 +53,7 @@ export async function useImageClassify (uri) {
       },
       data
     });
-    const classifyWordsList = await _prepareResponse(classifyResult.responses[0]);
+    const classifyWordsList = classifyResult && classifyResult.responses && classifyResult.responses.length ? await _prepareResponse(classifyResult.responses[0]) : [];
     return _makeFoodNames(classifyWordsList);
   } catch (error) {
     console.log(error);

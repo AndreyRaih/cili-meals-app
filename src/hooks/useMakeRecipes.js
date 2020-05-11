@@ -7,17 +7,15 @@ export async function useMakeRecipes (predictions) {
     const params = {
       apiKey: SPOONACULAR_API_KEY,
       number: 3,
-      includeIngredients: 'tomato', // predictions.join(',').toLowerCase(),
+      query: predictions.join(',').toLowerCase(),
       addRecipeInformation: true,
-      fillIngredients: true,
-      cuisine: 'thai,vietnamese,korean,indian,japanese'
+      fillIngredients: true
     };
     const recipesList = await request({
       method: 'GET',
       url: 'https://api.spoonacular.com/recipes/complexSearch',
       params
     });
-    console.log(params, recipesList);
     return recipesList.results;
   } catch (error) {
     console.log(error);

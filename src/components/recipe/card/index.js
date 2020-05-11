@@ -16,13 +16,16 @@ function RecipeCard ({ store }) {
 
   const changeCardActions = (action) => {
     const currentRecipPos = recipes.findIndex(recip => recip.id === currentRecipe.id);
+    const recipesList = recipes;
     switch (action) {
       case 'NEXT':
-        const nextRecipId = recipes[currentRecipPos + 1].id;
+        const nextPos = currentRecipPos + 1;
+        const nextRecipId = nextPos < recipes.length ? recipesList[nextPos].id : recipesList[currentRecipPos].id;
         setCurrentStage(1);
         return setCurrentRecipe(nextRecipId);
       case 'PREV':
-        const prevRecipId = recipes[currentRecipPos - 1].id
+        const prevPos = currentRecipPos - 1;
+        const prevRecipId = prevPos >= 0 ? recipesList[prevPos].id : recipesList[currentRecipPos].id;
         setCurrentStage(1);
         return setCurrentRecipe(prevRecipId)
       case 'EXPAND':

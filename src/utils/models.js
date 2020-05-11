@@ -24,7 +24,7 @@ export function makeRecipeModel (data) {
     description: data.summary ? prepareDescription(data.summary) : 'No comments',
     ingredients: unmissed.concat(missed),
     basicInfo: {
-      cousine: data.cuisines ? data.cuisines[0] || 'All' : 'All',
+      cousine: data.cuisines && data.cuisines.length ? data.cuisines[0] || 'All' : 'All',
       type: data.vegetarian ? 'Veg' : 'Non veg',
       amount: data.cookingMinutes ? `${data.cookingMinutes} min` : null
     },

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Vibration } from 'react-native';
+import { View, Vibration, Text } from 'react-native';
 import AnimatedLoader from "react-native-animated-loader";
 import { inject } from 'mobx-react';
 
@@ -10,6 +10,7 @@ function RecognizeLoaderScreen ({ route, store, navigation }) {
   const { photo } = route.params;
   const [loadingState, setLoadingState] = useState(false);
   const [completeState, setCompleteState] = useState(false);
+  const [noResult, setNoResult] = useState(false);
 
   useEffect(() => { startRecognize(photo) }, []);
 
@@ -24,32 +25,52 @@ function RecognizeLoaderScreen ({ route, store, navigation }) {
 
   async function endRecognize (predictions) {
     Vibration.vibrate();
-    setCompleteState(true);
     const recipes = await useMakeRecipes(predictions);
-    store.addRecipesList(recipes);
-    store.setCurrentRecipe(recipes[0].id);
-    setTimeout(() => {
-      setCompleteState(false);
-      navigation.navigate('Result');
-    }, 1500);
+    if (recipes.length) {
+      setCompleteState(true);
+      store.addRecipesList(recipes);
+      store.setCurrentRecipe(recipes[0].id);
+      setTimeout(() => {
+        setCompleteState(false);
+        navigation.navigate('Result');
+      }, 1500);
+    } else {
+      setNoResult(true);
+      setTimeout(() => {
+        setNoResult(false);
+        navigation.navigate('Camera');
+      }, 3000);
+    }
   }
-
+  function renderLoaderView () {
+    if (!noResult) {
+      return (
+        <>
+          <AnimatedLoader
+            visible={completeState}
+            overlayColor="rgba(0, 0, 0, 0.83)"
+            source={require("@res/loaders/complete-loader.json")}
+            animationStyle={{ width: 200, height: 200 }}
+            speed={1}
+          />
+          <AnimatedLoader
+            visible={loadingState}
+            overlayColor="rgba(0, 0, 0, 0.83)"
+            source={require("@res/loaders/process-loader.json")}
+            animationStyle={{ width: 200, height: 200 }}
+            speed={1}
+          />
+        </>
+      )
+    } else {
+      return (
+        <View style={{flex: 2, backgroundColor: 'rgba(0, 0, 0, 0.83)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}><Text style={{color: 'white', fontSize: 24}}>Sorry, try again, please</Text></View>
+      )
+    }
+  }
   return (
     <View style={{ flex: 1, zIndex: 0 }}>
-      <AnimatedLoader
-        visible={completeState}
-        overlayColor="rgba(0, 0, 0, 0.83)"
-        source={require("@res/loaders/complete-loader.json")}
-        animationStyle={{ width: 200, height: 200 }}
-        speed={1}
-      />
-      <AnimatedLoader
-        visible={loadingState}
-        overlayColor="rgba(0, 0, 0, 0.83)"
-        source={require("@res/loaders/process-loader.json")}
-        animationStyle={{ width: 200, height: 200 }}
-        speed={1}
-      />
+      {renderLoaderView()}
     </View>
   )
 }
