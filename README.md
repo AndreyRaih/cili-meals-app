@@ -11,3 +11,20 @@ After this, App makes a request to [Spoonacular API](https://spoonacular.com/foo
 
 ## WIP
 Now, it's just a prototype, and I try to make it useful and convenient. What about technical descriptions - it will appear in the last stages of making this project
+
+
+### Contribute Guide
+Install **npm** or **yarn**
+After this, use install command, for installing dependencies:
+
+    npm install
+   or
+   
+
+    yarn
+   After installing, just run your app:
+   
+
+    yarn start
+
+More information about this build, you can get on [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup)
