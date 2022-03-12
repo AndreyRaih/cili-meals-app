@@ -9,7 +9,7 @@ npm-debug.*
 *.orig.*
 .env
 .expo-shared/
-.vscode
+.vscode/
 web-build/
 web-report/
 
