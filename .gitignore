@@ -7,6 +7,9 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
+.env
+.expo-shared/
+.vscode
 web-build/
 web-report/
 
